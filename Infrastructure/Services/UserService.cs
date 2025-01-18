@@ -14,9 +14,9 @@ namespace Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly IConfiguration _configuration;
-        public UserService()
+        public UserService(IConfiguration configuration)
         {
-            
+            _configuration = configuration;
         }
 
         public string GenerateTokenAsync(string name, string email, CancellationToken cancellationToken)

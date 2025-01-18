@@ -11,6 +11,5 @@ namespace Domain.Repositories
     {
         public Task<User> GetUserAsync(string email);
         public Task CreateUserAsync(User userRequest);
-        public Task<User> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken);
     }
 }

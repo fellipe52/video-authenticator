@@ -23,11 +23,5 @@ namespace Infrastructure.Repositories
         {
             await _users.InsertOneAsync(user);
         }
-
-        public async Task<User> AuthenticateUserAsync(string email, Password password)
-        {
-            var user = await _users.Find(u => u.Email == email && u.Password.Equals(password)).FirstOrDefaultAsync();
-            return user;
-        }
     }
 }

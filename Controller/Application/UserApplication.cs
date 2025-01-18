@@ -1,5 +1,4 @@
 ﻿using Controller.Application.Interfaces;
-using Controller.Dtos.UserDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +22,9 @@ namespace Controller.Application
             await _userUseCase.CreateUserAsync(userRequest);
         }
 
-        public async Task<string> AuthenticateUserAsync(UserRequest user, CancellationToken cancellationToken)
+        public async Task<UserResponse> AuthenticateUserAsync(UserRequest user, CancellationToken cancellationToken)
         {
-            return _userUseCase.AuthenticateUserAsync(user);
+            return await _userUseCase.AuthenticateUserAsync(user);
         }
     }
 }

@@ -10,6 +10,6 @@ namespace UseCase.UseCase.Interfaces
     public interface IUserUseCase
     {
         public Task CreateUserAsync(UserRequest userRequest);
-        public string AuthenticateUserAsync(UserRequest userRequest);
+        public Task<UserResponse> AuthenticateUserAsync(UserRequest userRequest);
     }
 }

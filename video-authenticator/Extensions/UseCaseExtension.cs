@@ -1,4 +1,5 @@
 using Core.Notifications;
+using Infrastructure.Services;
 using UseCase.UseCase;
 using UseCase.UseCase.Interfaces;
 
@@ -17,8 +18,9 @@ public static class UseCaseExtension
 	private static IServiceCollection AddServices(this IServiceCollection services)
 	{
 		return services
-			.AddScoped<IUserUseCase, UserUseCase>();
-	}
+			.AddScoped<IUserUseCase, UserUseCase>()
+			.AddScoped<Infrastructure.Services.Interfaces.IUserService, UserService>();
+    }
 
 	private static IServiceCollection AddNotifications(this IServiceCollection services)
 	{

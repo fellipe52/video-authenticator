@@ -22,5 +22,24 @@ namespace Domain.Helpers
                 return builder.ToString();
             }
         }
+
+        public static bool VerifyPassword(string storedHash, string providedPassword)
+        {
+            // Hash the provided password using SHA256
+            using (var sha256 = SHA256.Create())
+            {
+                var providedPasswordBytes = Encoding.UTF8.GetBytes(providedPassword);
+                var hashBytes = sha256.ComputeHash(providedPasswordBytes);
+
+                StringBuilder builder = new StringBuilder();
+                foreach (var b in hashBytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+
+                // Compare the provided hash with the stored hash
+                return builder.ToString() == storedHash;
+            }
+        }
     }
 }

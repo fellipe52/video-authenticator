@@ -1,7 +1,9 @@
 ﻿using Core.Notifications;
 using Domain.Entities.UserAggregate;
+using Domain.Helpers;
 using Domain.Repositories;
 using Domain.Services;
+using Domain.ValueObjects;
 using UseCase.Dtos;
 using UseCase.UseCase.Interfaces;
 
@@ -10,11 +12,11 @@ namespace UseCase.UseCase
     public class UserUseCase : IUserUseCase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserService _userService;
+        private readonly IUserAdapterService _userService;
         private readonly NotificationContext _notificationContext;
         public UserUseCase(
             IUserRepository userRepository,
-            IUserService userService,
+            IUserAdapterService userService,
             NotificationContext notificationContext)
         {
             _userRepository = userRepository;
@@ -29,6 +31,7 @@ namespace UseCase.UseCase
             if(userExist != null)
             {
                 _notificationContext.AssertArgumentNotNull(userExist, $"O usuário já foi cadastrado");
+                return;
             }
 
             if (_notificationContext.HasErrors)
@@ -44,23 +47,26 @@ namespace UseCase.UseCase
             });
         }
 
-        public string AuthenticateUserAsync(UserRequest userRequest)
+        public async Task<UserResponse> AuthenticateUserAsync(UserRequest userRequest)
         {
-            var user = _userRepository.AuthenticateUserAsync(userRequest.Email, userRequest.Password, default);
+            var user = await _userRepository.GetUserAsync(userRequest.Email);
 
             if (user == null)
             {
-                _notificationContext.AssertArgumentNotNull(user, $"O usuário {userRequest.Name} não existe.");
+                _notificationContext.AssertArgumentNotNull(user, $"O usuário {userRequest.Name} não existe.").ToString();
+                return new UserResponse { Token = string.Empty, Notification = new List<string> { $"O usuário {userRequest.Name} não existe." } };
             }
+            var isPassValid = PasswordHelper.VerifyPassword(user.Password, userRequest.Password);
 
-            if (_notificationContext.HasErrors)
+            if (!isPassValid)
             {
-                return string.Empty;
+                _notificationContext.AssertArgumentNotNull(user, $"Senha {userRequest.Password} inválida.").ToString();
+                return new UserResponse { Token = string.Empty, Notification = new List<string> { $"Senha {userRequest.Password} inválida." } };
             }
 
             string token = _userService.GenerateToken(userRequest.Name, userRequest.Email);
 
-            return token;
+            return new UserResponse { Token = token, Notification = new List<string> { $"Token criado com sucesso." } };
         }
     }
 }

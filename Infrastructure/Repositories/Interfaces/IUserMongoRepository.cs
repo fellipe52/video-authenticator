@@ -7,6 +7,5 @@ namespace Infrastructure.Repositories.Interfaces
     {
         public Task<User> GetUserAsync(string email);
         public Task CreateUserAsync(User user);
-        public Task<User> AuthenticateUserAsync(string email, Password password);
     }
 }

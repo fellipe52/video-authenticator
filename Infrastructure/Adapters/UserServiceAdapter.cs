@@ -1,13 +1,9 @@
 ﻿using Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Infrastructure.Services.Interfaces;
 
 namespace Infrastructure.Adapters
 {
-    public class UserServiceAdapter : IUserService
+    public class UserServiceAdapter : IUserAdapterService
     {
         private readonly IUserService _userService;
 
@@ -17,7 +13,7 @@ namespace Infrastructure.Adapters
         }
         public string GenerateToken(string name, string email)
         {
-            return _userService.GenerateToken(name, email);
+            return _userService.GenerateTokenAsync(name, email, default);
         }
     }
 }

@@ -1,5 +1,4 @@
 using Controller.Application.Interfaces;
-using Controller.Dtos.UserDTO;
 using Microsoft.AspNetCore.Mvc;
 using UseCase.Dtos;
 
@@ -21,7 +20,7 @@ namespace video_authenticator.Controllers
 
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
+        [HttpPost("create/user")]
         public async Task<IActionResult> CreateUser(UserRequest userRequest, CancellationToken cancellationToken)
         {
             await _userApplication.CreateUserAsync(userRequest);
@@ -29,9 +28,9 @@ namespace video_authenticator.Controllers
             return Ok();
         }
 
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
+        [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate(UserRequest userRequest, CancellationToken cancellationToken)
         {
             var response = await _userApplication.AuthenticateUserAsync(userRequest, cancellationToken);

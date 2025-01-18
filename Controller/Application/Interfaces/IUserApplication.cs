@@ -10,6 +10,6 @@ namespace Controller.Application.Interfaces
     public interface IUserApplication
     {
         public Task CreateUserAsync(UserRequest userRequest);
-        public Task<string> AuthenticateUserAsync(UserRequest user, CancellationToken cancellationToken);
+        public Task<UserResponse> AuthenticateUserAsync(UserRequest user, CancellationToken cancellationToken);
     }
 }

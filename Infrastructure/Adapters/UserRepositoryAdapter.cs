@@ -21,10 +21,5 @@ namespace Infrastructure.Adapters
         {
             await _userMongoRepository.CreateUserAsync(userRequest);
         }
-
-        public Task<User> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
-        {
-            return _userMongoRepository.AuthenticateUserAsync(email, password);
-        }
     }
 }

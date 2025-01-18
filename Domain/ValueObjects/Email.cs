@@ -10,10 +10,10 @@ public struct Email
 	{
 		if (!IsValidEmail(adress))
 			throw new InvalidEmailException(adress);
-		Adress = adress;
+		Address = adress;
 	}
 
-	public string Adress { get; }
+	public string Address { get; }
 
 	public static implicit operator Email(string adress)
 	{
@@ -22,7 +22,7 @@ public struct Email
 
 	public static implicit operator string(Email email)
 	{
-		return email.Adress;
+		return email.Address;
 	}
 
 	public static bool IsValidEmail(string email)
@@ -71,11 +71,11 @@ public struct Email
 	public override bool Equals(object? obj)
 	{
 		return obj is Email email &&
-			   Adress == email.Adress;
+               Address	 == email.Address;
 	}
 
 	public override int GetHashCode()
 	{
-		return HashCode.Combine(Adress);
+		return HashCode.Combine(Address);
 	}
 }
